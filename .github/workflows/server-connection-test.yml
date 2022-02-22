@@ -1,0 +1,15 @@
+name: Server connection test
+
+on:
+  workflow_dispatch:
+    inputs:
+      message: "Runner echoes this message"
+      required: true
+      default: "Hello World"
+
+jobs:
+  test-connection:
+    name: Test connection to server
+    runs-on: self-hosted
+    steps:
+      - run: echo ${{ github.event.inputs.message }}
