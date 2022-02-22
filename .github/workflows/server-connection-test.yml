@@ -1,5 +1,11 @@
 name: Server connection test
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Runner echoes this message"
+        required: true
+        default: "Hello World"
 
 jobs:
   test-connection:
