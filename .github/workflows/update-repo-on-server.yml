@@ -1,0 +1,16 @@
+name: Update repo on server
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - docker/**
+
+jobs:
+  test-connection:
+    runs-on: self-hosted
+    steps:
+      - name:
+        run: |
+          cd ~/Innovaatioprojekti-CI-CD
+          git pull origin main

@@ -11,8 +11,11 @@ jobs:
   test-connection:
     runs-on: self-hosted
     steps:
-      - run: |
+      - name: Print message
+        run: |
+          echo start directory
           ls -a
           cd
+          echo home directory
           ls -a
           echo ${{ github.event.inputs.message }}
