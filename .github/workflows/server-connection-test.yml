@@ -11,4 +11,8 @@ jobs:
   test-connection:
     runs-on: self-hosted
     steps:
-      - run: echo ${{ github.event.inputs.message }}
+      - run: |
+          ls -a
+          cd
+          ls -a
+          echo ${{ github.event.inputs.message }}
