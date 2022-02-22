@@ -1,5 +1,5 @@
 name: Server connection test
-on: push
+on: workflow_dispatch
 
 jobs:
   test-connection:
