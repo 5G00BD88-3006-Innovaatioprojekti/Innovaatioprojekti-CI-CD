@@ -10,7 +10,7 @@ jobs:
   test-connection:
     runs-on: self-hosted
     steps:
-      - name:
+      - name: Pull repo from github
         run: |
           cd ~/Innovaatioprojekti-CI-CD
           git pull origin main
