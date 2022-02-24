@@ -1,0 +1,35 @@
+name: Build sports location tracker app as test
+inputs:
+  google-maps-api-key:
+    required: true
+  postgres-user:
+    required: true
+  postgres-password:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Pull from repo
+      run: |
+        cd ~/images/Sports-Location-Tracker-Public
+        git pull origin main
+    - name: Clone from repo if pull fails
+      if: ${{ failure() }}
+      run: |
+        cd ~/images
+        git clone git@github.com:ninopenttinen/Sports-Location-Tracker-Public.git
+        cd Sports-Location-Tracker-Public
+    - name: Build images
+      run: |
+        cd .dockerfiles
+        docker build -t SLT_webapp:latest webapp.Dockerfile
+        docker build -t SLT_server:latest --build-arg NODE_ENV=production server.Dockerfile
+        docker build -t SLT_db:latest db.Dockerfile
+    - name: Build containers
+      run: |
+        cd ~/Innovaatioprojekti-CI-CD/docker/sports-location-tracker/docker-compose.yml
+        TAG="latest" docker-compose build \
+          --build-arg GOOGLE_MAP_API_KEY=${{ github.event.inputs.google-maps-api-key }} \
+          --build-arg POSTGRES_USER=${{ github.event.inputs.postgres-user }} \
+          --build-arg POSTGRES_PASSWORD=${{ github.event.inputs.postgres-password }}

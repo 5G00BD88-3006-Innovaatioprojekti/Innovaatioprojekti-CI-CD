@@ -1,0 +1,67 @@
+version: '3'
+services:
+
+    webapp:
+        container_name: webapp
+        restart: always
+        image: SLT_webapp:${TAG}
+        ports:
+            - '80:80'
+        environment:
+            GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
+        depends_on:
+            - server
+            - adminer
+        networks:
+            - frontend
+
+    server:
+        container_name: node_server
+        hostname: node_server
+        restart: always
+        image: SLT_server:${TAG}
+        ports:
+            - '9000:9000'
+        secrets:
+            - db_user
+            - db_user_pw
+        depends_on:
+            - postgres
+        networks:
+            - backend
+            - frontend
+
+    postgres:
+        container_name: postgres
+        restart: always
+        image: SLT_db:${TAG}
+        environment:
+            POSTGRES_DB: sports_location_tracker
+            POSTGRES_USER_FILE: ${POSTGRES_USER}
+            POSTGRES_PASSWORD_FILE: ${POSTGRES_PASSWORD}
+        networks:
+            - backend
+        ports:
+            - '5432:5432'
+        secrets:
+            - db_user
+            - db_user_pw
+        volumes:
+            - ~/environments/sports-location-tracker/db-data:/var/lib/postgresql/data
+
+    adminer:
+        container_name: adminer
+        hostname: adminer
+        image: adminer:4.7.7
+        restart: always
+        ports:
+            - '8080:8080'
+        depends_on:
+            - postgres
+        networks:
+            - backend
+            - frontend
+
+networks:
+    frontend:
+    backend:
