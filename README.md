@@ -8,12 +8,13 @@ Pullaa uusimmat muutokset repon 'main' haarasta palvelimelle kun repoon tehdää
 
 ### Deploy to server
 
-Deploy action ottaa yhteyden TAMKin palvelimella pyörivään github runneriin, joka ajaa komennot projektin hakemiseksi/päivittämiseksi reposta ja käynnistää "Build project" actionin.
+EI AJANTASALLA
 
 ![alt text](https://github.com/ninopenttinen/Innovaatioprojekti-CI-CD/blob/main/Architecture%20pictures/Actions/deploy-to-server.png?raw=true)
 
 ### Build project
 
-Projekti kohtaiset build actionit.
+Projekti kohtaiset repot kutsuvat omaa projekti kohtaista build actioniaan, joka pullaa/kloonaa projektin lähdekoodit palvelimelle ja rakentaa projektin pohjalta docker imaget ja lopuksi kontit imagejen pohjalta. Docker imagejen rakennus ohjeet tehdään projektin omiin repoihin tarvittaessa CICD tiimin toimesta. Jos projekti pitää sisällään salaisuuksia, lähetetään ne inputteina build actionille.
+ACTION VIELÄ TOISTAISEKSI TESTATTAVANA
 
 ![alt text](https://github.com/ninopenttinen/Innovaatioprojekti-CI-CD/blob/main/Architecture%20pictures/Actions/build-project.png?raw=true)
