@@ -12,19 +12,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-      with:
-        repository: ninopenttinen/Sports-Location-Tracker-Public
-        ref: ${{ github.event.inputs.branch }}
-        ssh-key: ~/.ssh/sports_location_tracker_deploy.pub
     - name: Build images
       shell: bash
       run: |
-        cd .dockerfiles
-        docker build -t SLT_webapp:latest webapp.Dockerfile
-        docker build -t SLT_server:latest --build-arg NODE_ENV=production server.Dockerfile
-        docker build -t SLT_db:latest db.Dockerfile
+        cd ~/repositories/Sports-Location-Tracker-Public/.dockerfiles
+        docker build -t slt_webapp:latest webapp.Dockerfile
+        docker build -t slt_server:latest --build-arg NODE_ENV=production server.Dockerfile
+        docker build -t slt_db:latest db.Dockerfile
     - name: Build containers
       shell: bash
       run: |
