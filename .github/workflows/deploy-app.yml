@@ -48,13 +48,15 @@ jobs:
         run: |
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git checkout ${{ github.event.inputs.branch }}
+
+  build-project:
+    runs-on: self-hosted
+    steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
-      - name: Run build action
+      - name: Run sports location tracker build action
         if: github.event.inputs.app == 'test_app'
-        uses: ./project-specific-actions/sports-location-tracker
+        uses: ./build-actions/sports-location-tracker
         with:
-          branch: ${{ github.event.inputs.branch }}
-          env: ${{ github.event.inputs.env }}
           google-maps-api-key: ${{ secrets.SLT_GOOGLE_MAPS_API_KEY }}
           postgres-password: ${{ secrets.SLT_POSTGRES_PASSWORD }}

@@ -1,9 +1,5 @@
 name: Build Sports Location Tracker
 inputs:
-  branch:
-    required: true
-  env:
-    required: true
   google-maps-api-key:
     required: true
   postgres-password:
