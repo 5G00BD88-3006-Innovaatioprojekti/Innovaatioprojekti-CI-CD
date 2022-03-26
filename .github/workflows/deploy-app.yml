@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run build action
         if: github.event.inputs.app == 'test_app'
-        uses: ./project-specific-actions/build-sports-location-tracker
+        uses: ./project-specific-actions/sports-location-tracker
         with:
           branch: ${{ github.event.inputs.branch }}
           env: ${{ github.event.inputs.env }}
