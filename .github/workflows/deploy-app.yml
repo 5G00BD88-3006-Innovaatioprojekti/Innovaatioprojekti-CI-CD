@@ -22,19 +22,24 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Get repo name
-        id: repo_name
+        id: repo
         run: >-
           case ${{ github.event.inputs.app }} in
-            test_app) echo "::set-output name=Sports-Location-Tracker-Public";;
+            test_app) 
+              echo "::set-output fake-ssh-hostname=github.com-repo-sports-location-tracker"
+              echo "::set-output github-account=ninopenttinen"
+              echo "::set-output name=Sports-Location-Tracker-Public";;
             *) exit 1;;
           esac
       - name: Pull from repo
         run: |
-          cd ~/repositories/${{ steps.repo_name.outputs.name }}
+          cd ~/repositories/${{ steps.repo.outputs.name }}
           git pull origin ${{ github.events.inputs.branch }}
       - name: Clone from repo if pull fails
         if: ${{ failure() }}
         run: |
           cd ~/repositories
-          git clone git@github.com:ninopenttinen/${{ steps.repo_name.outputs.name }}.git
-          cd ${{ steps.repo_name.outputs.name }}
+          git clone git@${{ steps.repo.outputs.fake-ssh-hostname }}:${{ steps.repo.outputs.github-account }}/${{ steps.repo.outputs.name }}.git
+          cd ${{ steps.repo.outputs.name }}
+      - name: Checkout to selected branch
+        run: git checkout ${{ github.events.inputs.branch }}
