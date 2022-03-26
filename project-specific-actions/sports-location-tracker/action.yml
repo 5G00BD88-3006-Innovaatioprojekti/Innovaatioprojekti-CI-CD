@@ -19,12 +19,14 @@ runs:
         ref: ${{ github.event.inputs.branch }}
         ssh-key: ~/.ssh/sports_location_tracker_deploy.pub
     - name: Build images
+      shell: bash
       run: |
         cd .dockerfiles
         docker build -t SLT_webapp:latest webapp.Dockerfile
         docker build -t SLT_server:latest --build-arg NODE_ENV=production server.Dockerfile
         docker build -t SLT_db:latest db.Dockerfile
     - name: Build containers
+      shell: bash
       run: |
         cd ~/Innovaatioprojekti-CI-CD/docker/sports-location-tracker/docker-compose.yml
         TAG="latest" docker-compose build \
