@@ -1,4 +1,4 @@
-name: Update repo on server
+name: Update CICD repo on server
 on:
   push:
     branches:
@@ -12,5 +12,10 @@ jobs:
     steps:
       - name: Pull repo from github
         run: |
-          cd ~/Innovaatioprojekti-CI-CD
+          cd ~/repositories/Innovaatioprojekti-CI-CD
           git pull origin main
+      - name: Clone from repo if pull fails
+        if: ${{ failure() }}
+        run: |
+          cd ~/repositories
+          git clone git@github.com-repo-cicd/5G00BD88-3006-Innovaatioprojekti/Innovaatioprojekti-CI-CD.git
