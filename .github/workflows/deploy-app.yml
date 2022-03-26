@@ -27,7 +27,7 @@ jobs:
         run: >-
           case ${{ github.event.inputs.app }} in
             test_app) 
-              echo '::set-output name=FAKE_SSH_HOSTNAME::github.com-repo-sports-location-tracker'
+              echo '::set-output name=SSH_HOSTNAME::github.com-repo-sports-location-tracker'
               echo '::set-output name=GITHUB_ACCOUNT::ninopenttinen'
               echo '::set-output name=REPO_NAME::Sports-Location-Tracker-Public';;
             *) 
@@ -42,10 +42,14 @@ jobs:
         if: ${{ failure() }}
         run: |
           cd ~/repositories
-          git clone git@${{ steps.repo.outputs.FAKE_SSH_HOSTNAME }}:${{ steps.repo.outputs.GITHUB_ACCOUNT }}/${{ steps.repo.outputs.REPO_NAME }}.git
+          git clone git@${{ steps.repo.outputs.SSH_HOSTNAME }}:${{ steps.repo.outputs.GITHUB_ACCOUNT }}/${{ steps.repo.outputs.REPO_NAME }}.git
       - name: Checkout to selected branch
         if: ${{ always() }}
         run: |
-          ls -a
-          cd ${{ steps.repo.outputs.REPO_NAME }}
+          cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git checkout ${{ github.event.inputs.branch }}
+      - name: Run build action
+        uses: actions/checkout@v2
+        with:
+          branch: ${{ github.event.inputs.branch }}
+          env: ${{ github.event.inputs.env }}
