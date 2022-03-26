@@ -5,16 +5,17 @@ on:
       app:
         description: "Choose app to deploy"
         required: true
-        options:
-          - test app
+        type: choice
+        options: [test_app]
       branch:
         required: true
+        default: main
       env:
         description: "Choose deploy environment"
         required: true
-        options:
-          - stg
-          - prd
+        type: choice
+        options: [stg, prd]
+        default: stg
 
 jobs:
   fetch-repo:
@@ -24,13 +25,13 @@ jobs:
         id: repo_name
         run: >-
           case ${{ github.event.inputs.app }} in
-            test app) echo "::set-output name=Sports-Location-Tracker-Public";;
+            test_app) echo "::set-output name=Sports-Location-Tracker-Public";;
             *) exit 1;;
           esac
       - name: Pull from repo
         run: |
           cd ~/repositories/${{ steps.repo_name.outputs.name }}
-          git pull origin main
+          git pull origin ${{ github.events.inputs.branch }}
       - name: Clone from repo if pull fails
         if: ${{ failure() }}
         run: |
