@@ -3,15 +3,16 @@ on:
   workflow_dispatch:
     inputs:
       app:
-        description: "Choose app to deploy"
+        description: "App to deploy"
         required: true
         type: choice
         options: [test_app]
       branch:
+        description: "Branch to deploy"
         required: true
         default: main
       env:
-        description: "Choose deploy environment"
+        description: "Deploy environment"
         required: true
         type: choice
         options: [stg, prd]
@@ -26,10 +27,12 @@ jobs:
         run: >-
           case ${{ github.event.inputs.app }} in
             test_app) 
-              echo "::set-output fake-ssh-hostname=github.com-repo-sports-location-tracker"
-              echo "::set-output github-account=ninopenttinen"
-              echo "::set-output name=Sports-Location-Tracker-Public";;
-            *) exit 1;;
+              echo '::set-output fake-ssh-hostname=github.com-repo-sports-location-tracker'
+              echo '::set-output github-account=ninopenttinen'
+              echo '::set-output name=Sports-Location-Tracker-Public';;
+            *) 
+              echo "Invalid input"
+              exit 1;;
           esac
       - name: Pull from repo
         run: |
