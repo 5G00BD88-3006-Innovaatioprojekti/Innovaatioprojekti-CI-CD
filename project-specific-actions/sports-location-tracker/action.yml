@@ -15,7 +15,7 @@ runs:
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/ninopenttinen/Sports-Location-Tracker-Public
+        repository: ninopenttinen/Sports-Location-Tracker-Public
         ref: ${{ github.event.inputs.branch }}
         ssh-key: ~/.ssh/sports_location_tracker_deploy.pub
     - name: Build images
@@ -28,7 +28,7 @@ runs:
     - name: Build containers
       shell: bash
       run: |
-        cd ~/Innovaatioprojekti-CI-CD/docker/sports-location-tracker/docker-compose.yml
+        cd ~/repositories/Innovaatioprojekti-CI-CD/docker/sports-location-tracker/docker-compose.yml
         TAG="latest" docker-compose build \
           --build-arg GOOGLE_MAP_API_KEY=${{ github.event.inputs.google-maps-api-key }} \
           --build-arg POSTGRES_USER=admin \

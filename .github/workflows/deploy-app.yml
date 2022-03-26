@@ -49,7 +49,7 @@ jobs:
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git checkout ${{ github.event.inputs.branch }}
       - name: Checkout this repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run build action
         if: github.event.inputs.app == 'test_app'
         uses: ./project-specific-actions/sports-location-tracker
