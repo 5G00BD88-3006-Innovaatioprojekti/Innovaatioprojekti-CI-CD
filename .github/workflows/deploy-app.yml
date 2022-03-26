@@ -37,7 +37,7 @@ jobs:
       - name: Pull from repo
         run: |
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
-          git pull origin ${{ github.events.inputs.branch }}
+          git pull origin ${{ github.event.inputs.branch }}
       - name: Clone from repo if pull fails
         if: ${{ failure() }}
         run: |
@@ -45,4 +45,4 @@ jobs:
           git clone git@${{ steps.repo.outputs.FAKE_SSH_HOSTNAME }}:${{ steps.repo.outputs.GITHUB_ACCOUNT }}/${{ steps.repo.outputs.REPO_NAME }}.git
           cd ${{ steps.repo.outputs.REPO_NAME }}
       - name: Checkout to selected branch
-        run: git checkout ${{ github.events.inputs.branch }}
+        run: git checkout ${{ github.event.inputs.branch }}
