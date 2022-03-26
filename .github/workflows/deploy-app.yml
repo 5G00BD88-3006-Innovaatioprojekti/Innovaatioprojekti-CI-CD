@@ -27,22 +27,22 @@ jobs:
         run: >-
           case ${{ github.event.inputs.app }} in
             test_app) 
-              echo '::set-output fake-ssh-hostname=github.com-repo-sports-location-tracker'
-              echo '::set-output github-account=ninopenttinen'
-              echo '::set-output name=Sports-Location-Tracker-Public';;
+              echo '::set-output FAKE_SSH_HOSTNAME::github.com-repo-sports-location-tracker'
+              echo '::set-output GITHUB_ACCOUNT::ninopenttinen'
+              echo '::set-output NAME::Sports-Location-Tracker-Public';;
             *) 
               echo "Invalid input"
               exit 1;;
           esac
       - name: Pull from repo
         run: |
-          cd ~/repositories/${{ steps.repo.outputs.name }}
+          cd ~/repositories/${{ steps.repo.outputs.NAME }}
           git pull origin ${{ github.events.inputs.branch }}
       - name: Clone from repo if pull fails
         if: ${{ failure() }}
         run: |
           cd ~/repositories
-          git clone git@${{ steps.repo.outputs.fake-ssh-hostname }}:${{ steps.repo.outputs.github-account }}/${{ steps.repo.outputs.name }}.git
-          cd ${{ steps.repo.outputs.name }}
+          git clone git@${{ steps.repo.outputs.FAKE_SSH_HOSTNAME }}:${{ steps.repo.outputs.GITHUB_ACCOUNT }}/${{ steps.repo.outputs.NAME }}.git
+          cd ${{ steps.repo.outputs.NAME }}
       - name: Checkout to selected branch
         run: git checkout ${{ github.events.inputs.branch }}
