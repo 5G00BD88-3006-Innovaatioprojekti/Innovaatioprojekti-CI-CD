@@ -51,7 +51,10 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v2
       - name: Run build action
-        uses: actions/project-specific-actions/build-sports-location-tracker
+        if: github.event.inputs.app == 'test_app'
+        uses: ./project-specific-actions/build-sports-location-tracker
         with:
           branch: ${{ github.event.inputs.branch }}
           env: ${{ github.event.inputs.env }}
+          google-maps-api-key: ${{ secrets.SLT_GOOGLE_MAPS_API_KEY }}
+          postgres-password: ${{ secrets.SLT_POSTGRES_PASSWORD }}
