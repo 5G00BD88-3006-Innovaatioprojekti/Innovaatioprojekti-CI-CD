@@ -1,0 +1,39 @@
+name: Deploy App
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "Choose app to deploy"
+        required: true
+        options:
+          - test app
+      branch:
+        required: true
+      env:
+        description: "Choose deploy environment"
+        required: true
+        options:
+          - stg
+          - prd
+
+jobs:
+  fetch-repo:
+    runs-on: self-hosted
+    steps:
+      - name: Get repo name
+        id: repo_name
+        run: >-
+          case ${{ github.event.inputs.app }} in
+            test app) echo "::set-output name=Sports-Location-Tracker-Public";;
+            *) exit 1;;
+          esac
+      - name: Pull from repo
+        run: |
+          cd ~/repositories/${{ steps.repo_name.outputs.name }}
+          git pull origin main
+      - name: Clone from repo if pull fails
+        if: ${{ failure() }}
+        run: |
+          cd ~/repositories
+          git clone git@github.com:ninopenttinen/${{ steps.repo_name.outputs.name }}.git
+          cd ${{ steps.repo_name.outputs.name }}

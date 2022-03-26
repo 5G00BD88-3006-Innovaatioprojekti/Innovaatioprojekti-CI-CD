@@ -1,4 +1,4 @@
-name: Build sports location tracker app as test
+name: Build Sports Location Tracker
 inputs:
   google-maps-api-key:
     required: true
@@ -10,16 +10,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Pull from repo
-      run: |
-        cd ~/images/Sports-Location-Tracker-Public
-        git pull origin main
-    - name: Clone from repo if pull fails
-      if: ${{ failure() }}
-      run: |
-        cd ~/images
-        git clone git@github.com:ninopenttinen/Sports-Location-Tracker-Public.git
-        cd Sports-Location-Tracker-Public
     - name: Build images
       run: |
         cd .dockerfiles
