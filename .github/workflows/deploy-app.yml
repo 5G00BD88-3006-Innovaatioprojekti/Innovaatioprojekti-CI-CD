@@ -50,6 +50,7 @@ jobs:
           git checkout ${{ github.event.inputs.branch }}
 
   build-project:
+    needs: fetch-repo
     runs-on: self-hosted
     steps:
       - name: Checkout this repo
