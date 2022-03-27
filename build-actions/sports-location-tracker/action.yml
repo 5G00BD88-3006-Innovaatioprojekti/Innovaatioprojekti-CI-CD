@@ -8,15 +8,15 @@ runs:
   steps:
     - name: Retag previous images
       shell: bash
-      run: >-
+      run: |
         docker tag slt_webapp:${{ github.event.inputs.env }} slt_webapp:${{ github.event.inputs.env }}_previous
-        && docker tag slt_server:${{ github.event.inputs.env }} slt_server:${{ github.event.inputs.env }}_previous
-        && docker tag slt_db:${{ github.event.inputs.env }} slt_db:${{ github.event.inputs.env }}_previous
-        exit 0
+        docker tag slt_server:${{ github.event.inputs.env }} slt_server:${{ github.event.inputs.env }}_previous
+        docker tag slt_db:${{ github.event.inputs.env }} slt_db:${{ github.event.inputs.env }}_previous
     - name: Remove untagged images
       shell: bash
       run: docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
     - name: Build images
+      if: ${{ always() }}
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
