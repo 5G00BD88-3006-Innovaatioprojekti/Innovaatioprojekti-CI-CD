@@ -2,10 +2,6 @@ name: Build Sports Location Tracker
 inputs:
   env:
     required: true
-  google-maps-api-key:
-    required: true
-  postgres-password:
-    required: true
 
 runs:
   using: composite
@@ -22,8 +18,6 @@ runs:
       run: |
         cd $GITHUB_WORKSPACE/docker/sports-location-tracker
         TAG="latest" docker-compose \
-          -f docker-compose.${{ github.event.inputs.env }}.yml \
-          build \
-          --build-arg GOOGLE_MAP_API_KEY=${{ github.event.inputs.google-maps-api-key }} \
-          --build-arg POSTGRES_USER=admin \
-          --build-arg POSTGRES_PASSWORD=${{ github.event.inputs.postgres-password }}
+          --file docker-compose.${{ github.event.inputs.env }}.yml \
+          --env-file ~/secrets/sports-location-tracker-${{ github.event.inputs.env }}.env \
+          build
