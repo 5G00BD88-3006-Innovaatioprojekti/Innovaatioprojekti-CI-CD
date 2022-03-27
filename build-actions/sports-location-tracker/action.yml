@@ -13,6 +13,7 @@ runs:
         docker tag slt_server:${{ github.event.inputs.env }} slt_server:${{ github.event.inputs.env }}_previous
         docker tag slt_db:${{ github.event.inputs.env }} slt_db:${{ github.event.inputs.env }}_previous
     - name: Build images
+      if: ${{ always() }}
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
