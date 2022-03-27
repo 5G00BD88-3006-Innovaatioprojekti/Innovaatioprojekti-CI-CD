@@ -12,6 +12,7 @@ runs:
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
+        cat ./.dockerfiles/db.Dockerfile
         docker build -t slt_webapp:latest -f .dockerfiles/webapp.Dockerfile .
         docker build -t slt_server:latest --build-arg NODE_ENV=production -f .dockerfiles/server.Dockerfile .
         docker build -t slt_db:latest -f .dockerfiles/db.Dockerfile .
