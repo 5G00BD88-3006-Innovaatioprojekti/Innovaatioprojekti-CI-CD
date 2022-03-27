@@ -3,7 +3,7 @@ services:
   webapp:
     container_name: webapp
     restart: always
-    image: SLT_webapp:${TAG}
+    image: slt_webapp:${TAG}
     ports:
       - "80:80"
     environment:
@@ -18,7 +18,7 @@ services:
     container_name: node_server
     hostname: node_server
     restart: always
-    image: SLT_server:${TAG}
+    image: slt_server:${TAG}
     ports:
       - "9000:9000"
     depends_on:
@@ -30,7 +30,7 @@ services:
   postgres:
     container_name: postgres
     restart: always
-    image: SLT_db:${TAG}
+    image: slt_db:${TAG}
     environment:
       POSTGRES_DB: sports_location_tracker
       POSTGRES_USER_FILE: ${POSTGRES_USER}
@@ -40,7 +40,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ~/environments/sports-location-tracker/db-data:/var/lib/postgresql/data
+      - ~/volumes/sports-location-tracker/stg/db-data:/var/lib/postgresql/data
 
   adminer:
     container_name: adminer
