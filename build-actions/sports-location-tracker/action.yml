@@ -6,18 +6,16 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Retag previous images
+      shell: bash
+      run: |
+        docker tag slt_webapp:${{ github.event.inputs.env }} slt_webapp:${{ github.event.inputs.env }}_previous
+        docker tag slt_server:${{ github.event.inputs.env }} slt_server:${{ github.event.inputs.env }}_previous
+        docker tag slt_db:${{ github.event.inputs.env }} slt_db:${{ github.event.inputs.env }}_previous
     - name: Build images
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
-        docker build -t slt_webapp:latest -f .dockerfiles/webapp.Dockerfile .
-        docker build -t slt_server:latest --build-arg NODE_ENV=production -f .dockerfiles/server.Dockerfile .
-        docker build -t slt_db:latest -f .dockerfiles/db.Dockerfile .
-    - name: Build containers
-      shell: bash
-      run: |
-        cd $GITHUB_WORKSPACE/docker/sports-location-tracker
-        TAG="latest" docker-compose \
-          --file docker-compose.${{ github.event.inputs.env }}.yml \
-          --env-file ~/secrets/sports-location-tracker-${{ github.event.inputs.env }}.env \
-          build
+        docker build -t slt_webapp:${{ github.event.inputs.env }} -f .dockerfiles/webapp.Dockerfile .
+        docker build -t slt_server:${{ github.event.inputs.env }} --build-arg NODE_ENV=production -f .dockerfiles/server.Dockerfile .
+        docker build -t slt_db:${{ github.event.inputs.env }} -f .dockerfiles/db.Dockerfile .

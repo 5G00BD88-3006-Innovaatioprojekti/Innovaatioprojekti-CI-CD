@@ -49,7 +49,7 @@ jobs:
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git checkout ${{ github.event.inputs.branch }}
 
-  build-project:
+  build-and-deploy:
     needs: fetch-repo
     runs-on: self-hosted
     steps:
@@ -58,5 +58,10 @@ jobs:
       - name: Run sports location tracker build action
         if: github.event.inputs.app == 'test_app'
         uses: ./build-actions/sports-location-tracker
+        with:
+          env: ${{ github.event.inputs.env }}
+      - name: Run sports location tracker deploy action
+        if: github.event.inputs.app == 'test_app'
+        uses: ./deploy-actions/sports-location-tracker
         with:
           env: ${{ github.event.inputs.env }}

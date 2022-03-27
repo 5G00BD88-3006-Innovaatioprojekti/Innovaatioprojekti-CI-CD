@@ -1,0 +1,16 @@
+name: Build Sports Location Tracker
+inputs:
+  env:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Build and start containers
+      shell: bash
+      run: |
+        cd $GITHUB_WORKSPACE/docker/sports-location-tracker
+        TAG="latest" docker-compose \
+          --file docker-compose.${{ github.event.inputs.env }}.yml \
+          --env-file ~/secrets/sports-location-tracker-${{ github.event.inputs.env }}.env \
+          up -d
