@@ -8,7 +8,15 @@ runs:
   steps:
     - name: Retag images
       shell: bash
-      run: |
-        docker tag slt_webapp:${{ github.event.inputs.env }}_previous slt_webapp:${{ github.event.inputs.env }}
-        docker tag slt_server:${{ github.event.inputs.env }}_previous slt_server:${{ github.event.inputs.env }}
-        docker tag slt_db:${{ github.event.inputs.env }}_previous slt_db:${{ github.event.inputs.env }}
+      run: >-
+        TAG=${{ github.event.inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
+
+        if [ docker image inspect slt_webapp:TAG_PREVIOUS > /dev/null 2>&1 ]
+          && [ docker image inspect slt_server:TAG_PREVIOUS > /dev/null 2>&1 ]
+          && [ docker image inspect slt_db:TAG_PREVIOUS > /dev/null 2>&1 ]; 
+        then
+          docker tag slt_webapp:$TAG_PREVIOUS slt_webapp:$TAG
+          docker tag slt_server:$TAG_PREVIOUS slt_server:$TAG
+          docker tag slt_db:$TAG_PREVIOUS slt_db:$TAG
+        fi

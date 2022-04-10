@@ -8,12 +8,19 @@ runs:
   steps:
     - name: Retag previous images
       shell: bash
-      run: |
-        docker tag slt_webapp:${{ github.event.inputs.env }} slt_webapp:${{ github.event.inputs.env }}_previous
-        docker tag slt_server:${{ github.event.inputs.env }} slt_server:${{ github.event.inputs.env }}_previous
-        docker tag slt_db:${{ github.event.inputs.env }} slt_db:${{ github.event.inputs.env }}_previous
+      run: >-
+        TAG=${{ github.event.inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
+
+        if [ docker image inspect slt_webapp:$TAG > /dev/null 2>&1 ]
+          && [ docker image inspect slt_server:$TAG > /dev/null 2>&1 ]
+          && [ docker image inspect slt_db:$TAG > /dev/null 2>&1 ]; 
+        then
+          docker tag slt_webapp:$TAG slt_webapp:$TAG_PREVIOUS
+          docker tag slt_server:$TAG slt_server:$TAG_PREVIOUS
+          docker tag slt_db:$TAG slt_db:$TAG_PREVIOUS
+        fi
     - name: Build images
-      if: ${{ always() }}
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
