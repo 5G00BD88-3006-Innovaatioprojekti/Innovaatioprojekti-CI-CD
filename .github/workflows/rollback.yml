@@ -28,6 +28,7 @@ jobs:
   deploy:
     needs: rollback
     runs-on: self-hosted
+    if: ${{ needs.rollback.result == 'success' }}
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
