@@ -1,4 +1,4 @@
-name: Build Sports Location Tracker
+name: Deploy Sports Location Tracker
 inputs:
   env:
     required: true

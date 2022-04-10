@@ -3,16 +3,16 @@ on:
   workflow_dispatch:
     inputs:
       app:
-        description: "App to deploy"
+        description: 'App to deploy'
         required: true
         type: choice
-        options: [test_app]
+        options: [sports-location-tracker]
       branch:
-        description: "Branch to deploy"
+        description: 'Branch to deploy'
         required: true
         default: main
       env:
-        description: "Deploy environment"
+        description: 'Deploy environment'
         required: true
         type: choice
         options: [stg, prd]
@@ -26,7 +26,7 @@ jobs:
         id: repo
         run: >-
           case ${{ github.event.inputs.app }} in
-            test_app) 
+            sports-location-tracker) 
               echo '::set-output name=SSH_HOSTNAME::github.com-repo-sports-location-tracker'
               echo '::set-output name=GITHUB_ACCOUNT::ninopenttinen'
               echo '::set-output name=REPO_NAME::Sports-Location-Tracker-Public';;
@@ -55,9 +55,8 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
-      - name: Run sports location tracker build action
-        if: github.event.inputs.app == 'test_app'
-        uses: ./build-actions/sports-location-tracker
+      - name: Run build action for ${{ github.event.inputs.app }}
+        uses: ./build-actions/${{ github.event.inputs.app }}
         with:
           env: ${{ github.event.inputs.env }}
 
@@ -67,8 +66,7 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
-      - name: Run sports location tracker deploy action
-        if: github.event.inputs.app == 'test_app'
-        uses: ./deploy-actions/sports-location-tracker
+      - name: Run deploy action for ${{ github.event.inputs.app }}
+        uses: ./deploy-actions/${{ github.event.inputs.app }}
         with:
           env: ${{ github.event.inputs.env }}
