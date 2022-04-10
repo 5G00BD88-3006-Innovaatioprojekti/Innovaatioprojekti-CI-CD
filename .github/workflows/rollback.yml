@@ -1,0 +1,37 @@
+name: Rollback
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App to rollback'
+        required: true
+        type: choice
+        options: [sports-location-tracker]
+      env:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options: [stg, prd]
+        default: stg
+
+jobs:
+  rollback:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
+      - name: Run rollback action for ${{ github.event.inputs.app }}
+        uses: ./rollback-actions/${{ github.event.inputs.app }}
+        with:
+          env: ${{ github.event.inputs.env }}
+
+  deploy:
+    needs: rollback
+    runs-on: self-hosted
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
+      - name: Run deploy action for ${{ github.event.inputs.app }}
+        uses: ./deploy-actions/${{ github.event.inputs.app }}
+        with:
+          env: ${{ github.event.inputs.env }}
