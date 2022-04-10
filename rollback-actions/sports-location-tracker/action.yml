@@ -11,14 +11,26 @@ runs:
       run: >-
         TAG=${{ github.event.inputs.env }}
         TAG_PREVIOUS=${TAG}_previous
+        TAG_TMP=${TAG}_tmp
 
         if [ docker image inspect slt_webapp:TAG_PREVIOUS > /dev/null 2>&1 ]
           && [ docker image inspect slt_server:TAG_PREVIOUS > /dev/null 2>&1 ]
-          && [ docker image inspect slt_db:TAG_PREVIOUS > /dev/null 2>&1 ]; 
+          && [ docker image inspect slt_db:TAG_PREVIOUS > /dev/null 2>&1 ]
+          && [ docker image inspect slt_webapp:TAG > /dev/null 2>&1 ]
+          && [ docker image inspect slt_server:TAG > /dev/null 2>&1 ]
+          && [ docker image inspect slt_db:TAG > /dev/null 2>&1 ]; 
         then
+          docker tag slt_webapp:$TAG slt_webapp:$TAG_TMP
+          docker tag slt_server:$TAG slt_server:$TAG_TMP
+          docker tag slt_db:$TAG slt_db:$TAG_TMP
+
           docker tag slt_webapp:$TAG_PREVIOUS slt_webapp:$TAG
           docker tag slt_server:$TAG_PREVIOUS slt_server:$TAG
           docker tag slt_db:$TAG_PREVIOUS slt_db:$TAG
+
+          docker tag slt_webapp:$TAG_TMP slt_webapp:$$TAG_PREVIOUS
+          docker tag slt_server:$TAG_TMP slt_server:$$TAG_PREVIOUS
+          docker tag slt_db:$TAG_TMP slt_db:$$TAG_PREVIOUS
         else
           exit 1
         fi
