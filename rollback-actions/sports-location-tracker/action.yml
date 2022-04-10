@@ -19,4 +19,6 @@ runs:
           docker tag slt_webapp:$TAG_PREVIOUS slt_webapp:$TAG
           docker tag slt_server:$TAG_PREVIOUS slt_server:$TAG
           docker tag slt_db:$TAG_PREVIOUS slt_db:$TAG
+        else
+          exit 1
         fi
