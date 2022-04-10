@@ -2,19 +2,14 @@
 
 ## Actions
 
-### Update repo on server
+### Deploy app
 
-Pullaa uusimmat muutokset repon 'main' haarasta palvelimelle kun repoon tehdään muutoksia. Tehdään jotta saadaan uusimmat docker konttien rakennus ohjeet palvelimelle jota runnerit osaavat buildata kontit uusimpien ohjeiden mukaan.
+Workflown inputeissa määritellään asennettava sovellus, branchi ja kohde ympäristö. Asennettavan sovelluksen repo haetaan palvelimelle ja nyt etäkoneella sijaitsevan repon kopiossa vaihdetaan inputeissa määriteltyyn branchiin. Seuraavaksi workflow kutsuu sovellus kohtaista build actionia. Build action käyttää imagejen luomiseen .dockerfile tiedostoja jotka löytyvät sovelluskohtaisesta reposta. Nämä .dockerfilet tehdään tarvittaessa CI/CD tiimin toimesta. Vanhat ajossa olevat imaget uudelleen tagataan "ympäristö_previous" tagilla jota voidaan käyttää tarvittaessa rollbackin tekemiseen. Imagejen rakennuksen jälkeen sovellus käynnistetään CI/CD reposta löytyvän projekti ja ympäristö kohtaisen docker-compose tiedoston mukaisesti.
 
-### Deploy to server
+![alt text](https://github.com/ninopenttinen/Innovaatioprojekti-CI-CD/blob/main/README%20pictures/workflows/deploy-app.png?raw=true)
 
-EI AJANTASALLA
+### Rollback
 
-![alt text](https://github.com/ninopenttinen/Innovaatioprojekti-CI-CD/blob/main/Architecture%20pictures/Actions/deploy-to-server.png?raw=true)
+Kutsuu projektikohtaista rollback actionia, joka vaihtaa "ympäristö" ja "ympäristö_previous" tagit päittäin. Lopuksi kutsutaan projektikohtaista deploy actionia joka käynnistää sovelluksen uudestaan.
 
-### Build project
-
-Projekti kohtaiset repot kutsuvat omaa projekti kohtaista build actioniaan, joka pullaa/kloonaa projektin lähdekoodit palvelimelle ja rakentaa projektin pohjalta docker imaget ja lopuksi kontit imagejen pohjalta. Docker imagejen rakennus ohjeet tehdään projektin omiin repoihin tarvittaessa CICD tiimin toimesta. Jos projekti pitää sisällään salaisuuksia, lähetetään ne inputteina build actionille.
-ACTION VIELÄ TOISTAISEKSI TESTATTAVANA
-
-![alt text](https://github.com/ninopenttinen/Innovaatioprojekti-CI-CD/blob/main/Architecture%20pictures/Actions/build-project.png?raw=true)
+![alt text](https://github.com/ninopenttinen/Innovaatioprojekti-CI-CD/blob/main/README%20pictures/workflows/rollback.png?raw=true)
