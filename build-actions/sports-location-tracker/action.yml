@@ -5,11 +5,9 @@ inputs:
 
 runs:
   using: composite
-  defaults:
-    run:
-      shell: bash
   steps:
     - name: Retag previous images
+      shell: bash
       run: >-
         TAG=${{ github.event.inputs.env }}
         TAG_PREVIOUS=${TAG}_previous
@@ -23,6 +21,7 @@ runs:
           docker tag slt_db:$TAG slt_db:$TAG_PREVIOUS
         fi
     - name: Build images
+      shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
         docker build -t slt_webapp:${{ github.event.inputs.env }} -f .dockerfiles/webapp.Dockerfile .
