@@ -5,9 +5,11 @@ inputs:
 
 runs:
   using: composite
+  defaults:
+    run:
+      shell: bash
   steps:
     - name: Build and start containers
-      shell: bash
       run: |
         cd $GITHUB_WORKSPACE/docker/sports-location-tracker
         TAG=${{ github.event.inputs.env }} docker-compose \
