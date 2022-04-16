@@ -39,12 +39,12 @@ jobs:
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git pull origin ${{ github.event.inputs.branch }}
       - name: Clone from repo if pull fails
-        if: ${{ failure() }}
+        if: failure()
         run: |
           cd ~/repositories
           git clone git@${{ steps.repo.outputs.SSH_HOSTNAME }}:${{ steps.repo.outputs.GITHUB_ACCOUNT }}/${{ steps.repo.outputs.REPO_NAME }}.git
       - name: Checkout to selected branch
-        if: ${{ always() }}
+        if: always()
         run: |
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git checkout ${{ github.event.inputs.branch }}
@@ -53,10 +53,10 @@ jobs:
     needs: fetch-repo
     runs-on: self-hosted
     steps:
-      - name: Checkout this repo
-        uses: actions/checkout@v3
+      # "uses" Cannot be used dynamically via expression, so we have to make own step for each app with an "if" clause...
       - name: Run build action for ${{ github.event.inputs.app }}
-        uses: ./build-actions/${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'sports-location-tracker'
+        uses: ./build-actions/sports-location-tracker
         with:
           env: ${{ github.event.inputs.env }}
 
@@ -64,9 +64,8 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Checkout this repo
-        uses: actions/checkout@v3
       - name: Run deploy action for ${{ github.event.inputs.app }}
-        uses: ./deploy-actions/${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'sports-location-tracker'
+        uses: ./deploy-actions/sports-location-tracker
         with:
           env: ${{ github.event.inputs.env }}
