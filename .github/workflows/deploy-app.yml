@@ -53,6 +53,8 @@ jobs:
     needs: fetch-repo
     runs-on: self-hosted
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
       # "uses" Cannot be used dynamically via expression, so we have to make own step for each app with an "if" clause...
       - name: Run build action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'sports-location-tracker'
@@ -64,6 +66,8 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v3
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'sports-location-tracker'
         uses: ./deploy-actions/sports-location-tracker

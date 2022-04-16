@@ -15,12 +15,12 @@ runs:
         TAG_PREVIOUS=${TAG}_previous
         TAG_TMP=${TAG}_tmp
 
-        if [ docker image inspect slt_webapp:TAG_PREVIOUS > /dev/null 2>&1 ]
-          && [ docker image inspect slt_server:TAG_PREVIOUS > /dev/null 2>&1 ]
-          && [ docker image inspect slt_db:TAG_PREVIOUS > /dev/null 2>&1 ]
-          && [ docker image inspect slt_webapp:TAG > /dev/null 2>&1 ]
-          && [ docker image inspect slt_server:TAG > /dev/null 2>&1 ]
-          && [ docker image inspect slt_db:TAG > /dev/null 2>&1 ]; 
+        if [ docker image inspect slt_webapp:TAG_PREVIOUS > /dev/null 2 > &1 ]
+          && [ docker image inspect slt_server:TAG_PREVIOUS > /dev/null 2 > &1 ]
+          && [ docker image inspect slt_db:TAG_PREVIOUS > /dev/null 2 > &1 ]
+          && [ docker image inspect slt_webapp:TAG > /dev/null 2 > &1 ]
+          && [ docker image inspect slt_server:TAG > /dev/null 2 > &1 ]
+          && [ docker image inspect slt_db:TAG > /dev/null 2 > &1 ]; 
         then
           docker tag slt_webapp:$TAG slt_webapp:$TAG_TMP
           docker tag slt_server:$TAG slt_server:$TAG_TMP
