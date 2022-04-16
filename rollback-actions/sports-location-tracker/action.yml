@@ -31,6 +31,10 @@ runs:
           docker tag slt_webapp:${TAG_TMP} slt_webapp:${TAG_PREVIOUS}
           docker tag slt_server:${TAG_TMP} slt_server:${TAG_PREVIOUS}
           docker tag slt_db:${TAG_TMP} slt_db:${TAG_PREVIOUS}
+
+          docker image rm slt_webapp:${TAG_TMP}
+          docker image rm slt_server:${TAG_TMP}
+          docker image rm slt_db:${TAG_TMP}
         else
           exit 1
         fi
