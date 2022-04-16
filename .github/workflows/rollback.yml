@@ -20,8 +20,10 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
+        # "uses" Cannot be used dynamically via expression, so we have to make own step for each app with an "if" clause...
       - name: Run rollback action for ${{ github.event.inputs.app }}
-        uses: ./rollback-actions/${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'sports-location-tracker'
+        uses: ./rollback-actions/sports-location-tracker
         with:
           env: ${{ github.event.inputs.env }}
 
@@ -33,6 +35,7 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v3
       - name: Run deploy action for ${{ github.event.inputs.app }}
-        uses: ./deploy-actions/${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'sports-location-tracker'
+        uses: ./deploy-actions/sports-location-tracker
         with:
           env: ${{ github.event.inputs.env }}
