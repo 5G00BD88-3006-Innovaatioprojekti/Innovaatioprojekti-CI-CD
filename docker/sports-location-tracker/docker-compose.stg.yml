@@ -19,6 +19,9 @@ services:
     hostname: node_server
     restart: always
     image: slt_server:${TAG}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - '9000'
     depends_on:
