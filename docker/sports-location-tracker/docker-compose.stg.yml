@@ -2,17 +2,18 @@ version: '3'
 services:
   webapp:
     container_name: webapp
+    hostname: slt_webapp_stg
     restart: always
     image: slt_webapp:${TAG}
     ports:
-      - '1080:80'
+      - '81'
     environment:
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
     depends_on:
       - server
       - adminer
     networks:
-      - frontend
+      - stg
 
   server:
     container_name: node_server
@@ -27,8 +28,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - backend
-      - frontend
+      - stg
 
   postgres:
     container_name: postgres
@@ -39,7 +39,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
-      - backend
+      - stg
     ports:
       - '5432'
     volumes:
@@ -55,9 +55,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - backend
-      - frontend
+      - stg
 
 networks:
-  frontend:
-  backend:
+  stg:
