@@ -37,6 +37,7 @@ jobs:
       - name: Pull from repo
         run: |
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
+          git checkout ${{ github.event.inputs.branch }}
           git pull origin ${{ github.event.inputs.branch }}
       - name: Clone from repo if pull fails
         if: failure()
