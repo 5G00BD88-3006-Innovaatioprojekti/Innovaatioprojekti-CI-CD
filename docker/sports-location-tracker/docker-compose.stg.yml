@@ -22,6 +22,7 @@ services:
     restart: always
     image: slt_server:${TAG}
     environment:
+      BASEPATH: ${BASEPATH}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
