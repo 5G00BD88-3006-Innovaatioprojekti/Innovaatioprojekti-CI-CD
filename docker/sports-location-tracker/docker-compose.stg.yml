@@ -8,6 +8,7 @@ services:
     ports:
       - '81'
     environment:
+      PUBLIC_URL: ${PUBLIC_URL}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
     depends_on:
       - server
