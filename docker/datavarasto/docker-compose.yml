@@ -1,0 +1,40 @@
+services:
+  ui:
+    image: ui-1
+    ports:
+      - "4200:4200"
+    networks:
+      - app-net
+  gateway: 
+    image: gw-1
+    ports:
+      - "3000:3000"
+    networks:
+      - app-net
+  user-management-service: 
+    image: ums-1
+    ports:
+      - "3001:3001"
+  file-service: 
+    image: fs-1
+    ports:
+      - "3002:3002"
+    networks:
+      - app-net
+  database:
+    image: 'mongo'
+    container_name: 'mongo-db'
+    environment:
+      - MONGO_INITDB_DATABASE=dataStorage 
+      - MONGO_INITDB_ROOT_USERNAME=admin 
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - '27017:27017'
+    networks:
+      - app-net
+
+networks:
+  app-net:
