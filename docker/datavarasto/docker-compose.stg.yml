@@ -1,31 +1,35 @@
 services:
   ui:
     hostname: ui-1_stg
-    image: ui-1
+    image: ui-1:${TAG}
     restart: always
     ports:
       - '4200:4200'
     networks:
       - stg
+
   gateway:
-    image: gw-1
+    image: gw-1:${TAG}
     restart: always
     ports:
       - '3000:3000'
     networks:
       - stg
+
   user-management-service:
-    image: ums-1
+    image: ums-1:${TAG}
     restart: always
     ports:
       - '3001:3001'
+
   file-service:
-    image: fs-1
+    image: fs-1:${TAG}
     restart: always
     ports:
       - '3002:3002'
     networks:
       - stg
+
   database:
     image: 'mongo'
     restart: always

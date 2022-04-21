@@ -128,25 +128,11 @@ jobs:
           env: ${{ github.event.inputs.env }}
 
       - name: Run deploy action for ${{ github.event.inputs.app }}
-        if: github.event.inputs.app == 'DV-datavarasto-ui'
-        uses: ./deploy-actions/datavarasto/datavarasto-ui
-        with:
-          env: ${{ github.event.inputs.env }}
-
-      - name: Run deploy action for ${{ github.event.inputs.app }}
-        if: github.event.inputs.app == 'DV-user-management-service'
-        uses: ./deploy-actions/datavarasto/user-management-service
-        with:
-          env: ${{ github.event.inputs.env }}
-
-      - name: Run deploy action for ${{ github.event.inputs.app }}
-        if: github.event.inputs.app == 'DV-file-service'
-        uses: ./deploy-actions/datavarasto/file-service
-        with:
-          env: ${{ github.event.inputs.env }}
-
-      - name: Run deploy action for ${{ github.event.inputs.app }}
-        if: github.event.inputs.app == 'DV-gateway'
-        uses: ./deploy-actions/datavarasto/gateway
+        if: |
+          github.event.inputs.app == 'DV-datavarasto-ui' || 
+          github.event.inputs.app == 'DV-user-management-service' || 
+          github.event.inputs.app == 'DV-file-service' || 
+          github.event.inputs.app == 'DV-gateway'
+        uses: ./deploy-actions/datavarasto
         with:
           env: ${{ github.event.inputs.env }}
