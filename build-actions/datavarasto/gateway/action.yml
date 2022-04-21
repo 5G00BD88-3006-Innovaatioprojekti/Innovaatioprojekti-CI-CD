@@ -12,7 +12,7 @@ runs:
         TAG=${{ github.event.inputs.env }}
         TAG_PREVIOUS=${TAG}_previous
 
-        if [ "docker image inspect gw-1:${TAG}" > /dev/null ];
+        if docker image inspect gw-1:${TAG} > /dev/null
         then
           docker tag gw-1:${TAG} gw-1:${TAG_PREVIOUS}
         fi
