@@ -92,25 +92,25 @@ jobs:
 
       - name: Run build action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-datavarasto-ui'
-        uses: ./build-actions/datavarasto-ui
+        uses: ./build-actions/datavarasto/datavarasto-ui
         with:
           env: ${{ github.event.inputs.env }}
 
       - name: Run build action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-user-management-service'
-        uses: ./build-actions/user-management-service
+        uses: ./build-actions/datavarasto/user-management-service
         with:
           env: ${{ github.event.inputs.env }}
 
       - name: Run build action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-file-service'
-        uses: ./build-actions/file-service
+        uses: ./build-actions/datavarasto/file-service
         with:
           env: ${{ github.event.inputs.env }}
 
       - name: Run build action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-gateway'
-        uses: ./build-actions/gateway
+        uses: ./build-actions/datavarasto/gateway
         with:
           env: ${{ github.event.inputs.env }}
 
@@ -129,24 +129,24 @@ jobs:
 
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-datavarasto-ui'
-        uses: ./deploy-actions/datavarasto-ui
+        uses: ./deploy-actions/datavarasto/datavarasto-ui
         with:
           env: ${{ github.event.inputs.env }}
 
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-user-management-service'
-        uses: ./deploy-actions/user-management-service
+        uses: ./deploy-actions/datavarasto/user-management-service
         with:
           env: ${{ github.event.inputs.env }}
 
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-file-service'
-        uses: ./deploy-actions/file-service
+        uses: ./deploy-actions/datavarasto/file-service
         with:
           env: ${{ github.event.inputs.env }}
 
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'DV-gateway'
-        uses: ./deploy-actions/gateway
+        uses: ./deploy-actions/datavarasto/gateway
         with:
           env: ${{ github.event.inputs.env }}
