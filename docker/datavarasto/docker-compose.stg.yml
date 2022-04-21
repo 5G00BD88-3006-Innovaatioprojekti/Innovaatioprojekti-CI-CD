@@ -11,19 +11,19 @@ services:
     image: gw-1
     restart: always
     ports:
-      - '3000'
+      - '3000:3000'
     networks:
       - stg
   user-management-service:
     image: ums-1
     restart: always
     ports:
-      - '3001'
+      - '3001:3001'
   file-service:
     image: fs-1
     restart: always
     ports:
-      - '3002'
+      - '3002:3002'
     networks:
       - stg
   database:
@@ -38,7 +38,7 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongo-volume:/data/db
     ports:
-      - '27017'
+      - '27017:27017'
     networks:
       - stg
 
