@@ -20,6 +20,7 @@ runs:
           docker tag slt_server:${TAG} slt_server:${TAG_PREVIOUS}
           docker tag slt_db:${TAG} slt_db:${TAG_PREVIOUS}
         fi
+
     - name: Build images
       shell: bash
       run: |

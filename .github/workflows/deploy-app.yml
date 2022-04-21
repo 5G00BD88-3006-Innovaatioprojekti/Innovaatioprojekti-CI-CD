@@ -6,7 +6,14 @@ on:
         description: 'App to deploy'
         required: true
         type: choice
-        options: [sports-location-tracker]
+        options:
+          [
+            sports-location-tracker,
+            DV-datavarasto-ui,
+            DV-user-management-service,
+            DV-file-service,
+            DV-gateway,
+          ]
       branch:
         description: 'Branch to deploy'
         required: true
@@ -30,20 +37,39 @@ jobs:
               echo '::set-output name=SSH_HOSTNAME::github.com-repo-sports-location-tracker'
               echo '::set-output name=GITHUB_ACCOUNT::ninopenttinen'
               echo '::set-output name=REPO_NAME::Sports-Location-Tracker-Public';;
+            DV-datavarasto-ui)
+              echo '::set-output name=SSH_HOSTNAME::github.com-repo-datavarasto-ui'
+              echo '::set-output name=GITHUB_ACCOUNT::Datavarasto'
+              echo '::set-output name=REPO_NAME::datavarasto-ui';;
+            DV-user-management-service)
+              echo '::set-output name=SSH_HOSTNAME::github.com-repo-user-managment-service'
+              echo '::set-output name=GITHUB_ACCOUNT::Datavarasto'
+              echo '::set-output name=REPO_NAME::user-managment-service';;
+            DV-file-service)
+              echo '::set-output name=SSH_HOSTNAME::github.com-repo-file-service'
+              echo '::set-output name=GITHUB_ACCOUNT::Datavarasto'
+              echo '::set-output name=REPO_NAME::file-service';;
+            DV-gateway)
+              echo '::set-output name=SSH_HOSTNAME::github.com-repo-gateway'
+              echo '::set-output name=GITHUB_ACCOUNT::Datavarasto'
+              echo '::set-output name=REPO_NAME::gateway';;
             *) 
               echo "Invalid input"
               exit 1;;
           esac
+
       - name: Pull from repo
         run: |
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git checkout ${{ github.event.inputs.branch }}
           git pull origin ${{ github.event.inputs.branch }}
+
       - name: Clone from repo if pull fails
         if: failure()
         run: |
           cd ~/repositories
           git clone git@${{ steps.repo.outputs.SSH_HOSTNAME }}:${{ steps.repo.outputs.GITHUB_ACCOUNT }}/${{ steps.repo.outputs.REPO_NAME }}.git
+
       - name: Checkout to selected branch
         if: always()
         run: |
@@ -56,10 +82,35 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
+
       # "uses" Cannot be used dynamically via expression, so we have to make own step for each app with an "if" clause...
       - name: Run build action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'sports-location-tracker'
         uses: ./build-actions/sports-location-tracker
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run build action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-datavarasto-ui'
+        uses: ./build-actions/datavarasto-ui
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run build action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-user-management-service'
+        uses: ./build-actions/user-management-service
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run build action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-file-service'
+        uses: ./build-actions/file-service
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run build action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-gateway'
+        uses: ./build-actions/gateway
         with:
           env: ${{ github.event.inputs.env }}
 
@@ -69,8 +120,33 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v3
+
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'sports-location-tracker'
         uses: ./deploy-actions/sports-location-tracker
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run deploy action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-datavarasto-ui'
+        uses: ./deploy-actions/datavarasto-ui
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run deploy action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-user-management-service'
+        uses: ./deploy-actions/user-management-service
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run deploy action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-file-service'
+        uses: ./deploy-actions/file-service
+        with:
+          env: ${{ github.event.inputs.env }}
+
+      - name: Run deploy action for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app == 'DV-gateway'
+        uses: ./deploy-actions/gateway
         with:
           env: ${{ github.event.inputs.env }}
