@@ -9,16 +9,16 @@ runs:
     - name: Retag previous images
       shell: bash
       run: >-
-        TAG=${{ github.event.inputs.env }};
-        TAG_PREVIOUS=${TAG}_previous;
+        TAG=${{ inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
 
-        if docker image inspect ums-1:${TAG} > /dev/null;
+        if (docker image inspect ums-1:${TAG} > /dev/null);
         then
-          docker tag ums-1:${TAG} ums-1:${TAG_PREVIOUS};
+          docker tag ums-1:${TAG} ums-1:${TAG_PREVIOUS}
         fi
 
     - name: Build images
       shell: bash
       run: |
         cd ~/repositories/user-managment-service
-        docker build -t ums-1:${{ github.event.inputs.env }} .
+        docker build -t ums-1:${{ inputs.env }} .

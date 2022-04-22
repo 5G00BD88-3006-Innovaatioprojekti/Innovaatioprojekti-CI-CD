@@ -10,7 +10,7 @@ runs:
       shell: bash
       run: |
         cd $GITHUB_WORKSPACE/docker/sports-location-tracker
-        TAG=${{ github.event.inputs.env }} docker-compose \
-          --file docker-compose.${{ github.event.inputs.env }}.yml \
-          --env-file ~/secrets/sports-location-tracker-${{ github.event.inputs.env }}.env \
+        TAG=${{ inputs.env }} docker-compose \
+          --file docker-compose.${{ inputs.env }}.yml \
+          --env-file ~/secrets/sports-location-tracker-${{ inputs.env }}.env \
           up -d

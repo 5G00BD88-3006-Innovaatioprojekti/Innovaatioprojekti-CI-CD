@@ -9,16 +9,16 @@ runs:
     - name: Retag previous images
       shell: bash
       run: >-
-        TAG=${{ github.event.inputs.env }};
-        TAG_PREVIOUS=${TAG}_previous;
+        TAG=${{ inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
 
-        if docker image inspect gw-1:${TAG} > /dev/null;
+        if (docker image inspect gw-1:${TAG} > /dev/null);
         then
-          docker tag gw-1:${TAG} gw-1:${TAG_PREVIOUS};
+          docker tag gw-1:${TAG} gw-1:${TAG_PREVIOUS}
         fi
 
     - name: Build images
       shell: bash
       run: |
         cd ~/repositories/file-service
-        docker build -t gw-1:${{ github.event.inputs.env }} .
+        docker build -t gw-1:${{ inputs.env }} .

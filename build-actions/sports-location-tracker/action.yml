@@ -9,22 +9,22 @@ runs:
     - name: Retag previous images
       shell: bash
       run: >-
-        TAG=${{ github.event.inputs.env }};
-        TAG_PREVIOUS=${TAG}_previous;
+        TAG=${{ inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
 
-        if docker image inspect slt_webapp:${TAG}" > /dev/null \
+        if (docker image inspect slt_webapp:${TAG}" > /dev/null \
           && docker image inspect slt_server:${TAG}" > /dev/null \
-          && docker image inspect slt_db:${TAG}" > /dev/null;
+          && docker image inspect slt_db:${TAG}" > /dev/null);
         then
-          docker tag slt_webapp:${TAG} slt_webapp:${TAG_PREVIOUS};
-          docker tag slt_server:${TAG} slt_server:${TAG_PREVIOUS};
-          docker tag slt_db:${TAG} slt_db:${TAG_PREVIOUS};
+          docker tag slt_webapp:${TAG} slt_webapp:${TAG_PREVIOUS}
+          docker tag slt_server:${TAG} slt_server:${TAG_PREVIOUS}
+          docker tag slt_db:${TAG} slt_db:${TAG_PREVIOUS}
         fi
 
     - name: Build images
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
-        docker build -t slt_webapp:${{ github.event.inputs.env }} -f .dockerfiles/webapp.Dockerfile .
-        docker build -t slt_server:${{ github.event.inputs.env }} --build-arg NODE_ENV=production -f .dockerfiles/server.Dockerfile .
-        docker build -t slt_db:${{ github.event.inputs.env }} -f .dockerfiles/db.Dockerfile .
+        docker build -t slt_webapp:${{ inputs.env }} -f .dockerfiles/webapp.Dockerfile .
+        docker build -t slt_server:${{ inputs.env }} --build-arg NODE_ENV=production -f .dockerfiles/server.Dockerfile .
+        docker build -t slt_db:${{ inputs.env }} -f .dockerfiles/db.Dockerfile .
