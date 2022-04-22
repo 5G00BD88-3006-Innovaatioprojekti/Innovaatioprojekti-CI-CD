@@ -13,6 +13,7 @@ on:
             DV-user-management-service,
             DV-file-service,
             DV-gateway,
+            DV-mongo-db,
           ]
       branch:
         description: 'Branch to deploy'
@@ -53,6 +54,10 @@ jobs:
               echo '::set-output name=SSH_HOSTNAME::github.com-repo-gateway'
               echo '::set-output name=GITHUB_ACCOUNT::Datavarasto'
               echo '::set-output name=REPO_NAME::gateway';;
+            DV-mongo-db)
+              echo '::set-output name=SSH_HOSTNAME::github.com-repo-mongo-db'
+              echo '::set-output name=GITHUB_ACCOUNT::Datavarasto'
+              echo '::set-output name=REPO_NAME::mongo-db';;
             *) 
               echo "Invalid input"
               exit 1;;

@@ -9,15 +9,12 @@ runs:
     - name: Retag previous images
       shell: bash
       run: >-
-        TAG=${{ github.event.inputs.env }}
-        TAG_PREVIOUS=${TAG}_previous
+        TAG=${{ github.event.inputs.env }};
+        TAG_PREVIOUS=${TAG}_previous;
 
-        if docker image inspect ui-1:${TAG} > /dev/null
+        if docker image inspect ui-1:${TAG} > /dev/null;
         then
-          echo success
-          docker tag ui-1:${TAG} ui-1:${TAG_PREVIOUS}
-        else
-          echo fail
+          docker tag ui-1:${TAG} ui-1:${TAG_PREVIOUS};
         fi
 
     - name: Build images
