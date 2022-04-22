@@ -1,5 +1,10 @@
 services:
   ui:
+    depends_on:
+      - database
+      - user-management-service
+      - gateway
+      - file-service
     hostname: ui-1_stg
     image: ui-1:${TAG}
     restart: always
@@ -9,6 +14,9 @@ services:
       - stg
 
   gateway:
+    depends_on:
+      - database
+      - user-management-service
     image: gw-1:${TAG}
     restart: always
     ports:
@@ -17,12 +25,17 @@ services:
       - stg
 
   user-management-service:
+    depends_on:
+      - database
     image: ums-1:${TAG}
     restart: always
     ports:
       - '3001:3001'
 
   file-service:
+    depends_on:
+      - database
+      - user-management-service
     image: fs-1:${TAG}
     restart: always
     ports:
