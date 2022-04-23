@@ -49,7 +49,8 @@ services:
 
   database:
     image: mongo-db:${TAG}
-    container_name: 'mongo-db'
+    hostname: mongo-db
+    container_name: mongo-db
     restart: always
     environment:
       - MONGO_INITDB_DATABASE=dataStorage
