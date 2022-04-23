@@ -1,0 +1,24 @@
+name: 'Build Datavarasto: Mongo DB'
+inputs:
+  env:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Retag previous images
+      shell: bash
+      run: >-
+        TAG=${{ inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
+
+        if (docker image inspect mongo-db:${TAG} > /dev/null);
+        then
+          docker tag mongo-db:${TAG} mongo-db:${TAG_PREVIOUS}
+        fi
+
+    - name: Build images
+      shell: bash
+      run: |
+        cd ~/repositories/file-service
+        docker build -t mongo-db:${{ inputs.env }} .

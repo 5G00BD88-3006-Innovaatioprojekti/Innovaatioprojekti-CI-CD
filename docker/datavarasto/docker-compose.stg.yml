@@ -48,9 +48,9 @@ services:
       - stg
 
   database:
-    image: 'mongo'
-    restart: always
+    image: mongo-db:${TAG}
     container_name: 'mongo-db'
+    restart: always
     environment:
       - MONGO_INITDB_DATABASE=dataStorage
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
