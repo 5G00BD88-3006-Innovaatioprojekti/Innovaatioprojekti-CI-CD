@@ -20,6 +20,7 @@ services:
       - database
       - user-management-service
     image: gw-1:${TAG}
+    hostname: gateway
     restart: always
     ports:
       - '3000:3000'
