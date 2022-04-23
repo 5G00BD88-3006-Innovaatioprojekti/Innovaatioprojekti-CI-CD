@@ -30,6 +30,7 @@ services:
     depends_on:
       - database
     image: ums-1:${TAG}
+    hostname: user-management-service
     restart: always
     ports:
       - '3001:3001'
@@ -41,6 +42,7 @@ services:
       - database
       - user-management-service
     image: fs-1:${TAG}
+    hostname: file-service
     restart: always
     ports:
       - '3002:3002'
