@@ -68,7 +68,7 @@ jobs:
           cd ~/repositories/${{ steps.repo.outputs.REPO_NAME }}
           git fetch
           git switch ${{ github.event.inputs.branch }}
-          git pull
+          git pull --rebase
 
       - name: Clone from repo if pull fails
         if: failure()
