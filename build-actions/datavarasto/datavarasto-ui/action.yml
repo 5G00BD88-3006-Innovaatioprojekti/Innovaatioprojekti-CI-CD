@@ -21,4 +21,4 @@ runs:
       shell: bash
       run: |
         cd ~/repositories/datavarasto-ui
-        docker build -t ui-1:${{ inputs.env }} .
+        docker build -t ui-1:${{ inputs.env }} --build-arg BASEPATH=/${{ inputs.env }}/datavarasto .
