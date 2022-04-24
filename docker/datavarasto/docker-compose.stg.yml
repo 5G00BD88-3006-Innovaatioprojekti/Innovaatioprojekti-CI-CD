@@ -11,7 +11,7 @@ services:
     image: ui-1:${TAG}
     restart: always
     ports:
-      - '4200:4200'
+      - '4200'
     networks:
       - stg
 
@@ -23,7 +23,7 @@ services:
     hostname: gateway
     restart: always
     ports:
-      - '3000:3000'
+      - '3000'
     networks:
       - stg
 
@@ -34,7 +34,7 @@ services:
     hostname: user_management_service
     restart: always
     ports:
-      - '3001:3001'
+      - '3001'
     networks:
       - stg
 
@@ -46,7 +46,7 @@ services:
     hostname: file_service
     restart: always
     ports:
-      - '3002:3002'
+      - '3002'
     networks:
       - stg
 
@@ -61,7 +61,7 @@ services:
     volumes:
       - ~/volumes/datavarasto/stg/db-data:/data/db
     ports:
-      - '27017:27017'
+      - '27017'
     networks:
       - stg
 
