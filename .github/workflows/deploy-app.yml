@@ -26,6 +26,10 @@ on:
         options: [stg, prd]
         default: stg
 
+concurrency:
+  group: deploy
+  cancel-in-progress: false # put workflow in queue instead of canceling
+
 jobs:
   fetch-repo:
     runs-on: self-hosted
