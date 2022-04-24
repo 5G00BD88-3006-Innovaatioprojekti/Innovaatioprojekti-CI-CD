@@ -1,13 +1,14 @@
 version: '3'
 
 services:
-  ui:
+  ui-prd:
     depends_on:
-      - database
-      - user-management-service
-      - gateway
-      - file-service
+      - database-prd
+      - user-management-service-prd
+      - gateway-prd
+      - file-service-prd
     hostname: ui-1_prd
+    container_name: ui-1_prd
     image: ui-1:${TAG}
     restart: always
     ports:
@@ -15,45 +16,48 @@ services:
     networks:
       - prd
 
-  gateway:
+  gateway-prd:
     depends_on:
-      - database
-      - user-management-service
+      - database-prd
+      - user-management-service-prd
     image: gw-1:${TAG}
     hostname: gateway
+    container_name: gateway_prd
     restart: always
     ports:
       - '3000:3000'
     networks:
       - prd
 
-  user-management-service:
+  user-management-service-prd:
     depends_on:
-      - database
+      - database-prd
     image: ums-1:${TAG}
     hostname: user_management_service
+    container_name: user_management_service_prd
     restart: always
     ports:
       - '3001:3001'
     networks:
       - prd
 
-  file-service:
+  file-service-prd:
     depends_on:
-      - database
-      - user-management-service
+      - database-prd
+      - user-management-service-prd
     image: fs-1:${TAG}
     hostname: file_service
+    container_name: file_service_prd
     restart: always
     ports:
       - '3002:3002'
     networks:
       - prd
 
-  database:
+  database-prd:
     image: mongo-db:${TAG}
     hostname: mongo-db
-    container_name: mongo-db
+    container_name: mongo-db_prd
     restart: always
     environment:
       - MONGO_INITDB_DATABASE=dataStorage

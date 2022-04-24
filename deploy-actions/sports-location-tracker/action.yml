@@ -13,4 +13,4 @@ runs:
         TAG=${{ inputs.env }} docker-compose \
           --file docker-compose.${{ inputs.env }}.yml \
           --env-file ~/secrets/sports-location-tracker-${{ inputs.env }}.env \
-          up -d
+          up -d --remove-orphans
