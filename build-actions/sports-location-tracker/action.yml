@@ -25,6 +25,6 @@ runs:
       shell: bash
       run: |
         cd ~/repositories/Sports-Location-Tracker-Public
-        docker build -t slt_webapp:${{ inputs.env }} -f .dockerfiles/webapp.Dockerfile .
+        docker build -t slt_webapp:${{ inputs.env }} --build-arg BASEPATH=/${{ inputs.env }}/sports-location-tracker -f .dockerfiles/webapp.Dockerfile .
         docker build -t slt_server:${{ inputs.env }} --build-arg NODE_ENV=production -f .dockerfiles/server.Dockerfile .
         docker build -t slt_db:${{ inputs.env }} -f .dockerfiles/db.Dockerfile .

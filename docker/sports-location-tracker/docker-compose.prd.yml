@@ -2,11 +2,11 @@ version: '3'
 
 services:
   webapp:
-    hostname: slt_webapp_stg
+    hostname: slt_webapp_prd
     restart: always
     image: slt_webapp:${TAG}
     ports:
-      - '81:81'
+      - '81'
     environment:
       BASEPATH: ${BASEPATH}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
@@ -14,7 +14,7 @@ services:
       - server
       - adminer
     networks:
-      - stg
+      - prd
 
   server:
     hostname: node_server
@@ -25,11 +25,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - '9000:9000'
+      - '9000'
     depends_on:
       - postgres
     networks:
-      - stg
+      - prd
 
   postgres:
     restart: always
@@ -39,11 +39,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
-      - stg
+      - prd
     ports:
-      - '5432:5432'
+      - '5432'
     volumes:
-      - ~/volumes/sports-location-tracker/stg/db-data:/var/lib/postgresql/data
+      - ~/volumes/sports-location-tracker/prd/db-data:/var/lib/postgresql/data
 
   adminer:
     hostname: adminer
@@ -54,7 +54,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - stg
+      - prd
 
 networks:
-  stg:
+  prd:
