@@ -7,13 +7,13 @@ services:
       - user-management-service
       - gateway
       - file-service
-    hostname: ui-1_stg
+    hostname: ui-1_prd
     image: ui-1:${TAG}
     restart: always
     ports:
       - '4200:4200'
     networks:
-      - stg
+      - prd
 
   gateway:
     depends_on:
@@ -25,7 +25,7 @@ services:
     ports:
       - '3000:3000'
     networks:
-      - stg
+      - prd
 
   user-management-service:
     depends_on:
@@ -36,7 +36,7 @@ services:
     ports:
       - '3001:3001'
     networks:
-      - stg
+      - prd
 
   file-service:
     depends_on:
@@ -48,7 +48,7 @@ services:
     ports:
       - '3002:3002'
     networks:
-      - stg
+      - prd
 
   database:
     image: mongo-db:${TAG}
@@ -60,11 +60,11 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - ~/volumes/datavarasto/stg/db-data:/data/db
+      - ~/volumes/datavarasto/prd/db-data:/data/db
     ports:
       - '27017:27017'
     networks:
-      - stg
+      - prd
 
 networks:
-  stg:
+  prd:
