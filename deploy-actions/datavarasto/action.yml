@@ -11,6 +11,7 @@ runs:
       run: |
         cd $GITHUB_WORKSPACE/docker/datavarasto
         TAG=${{ inputs.env }} docker-compose \
+          --project-name datavarasto-${{ inputs.env }} \
           --file docker-compose.${{ inputs.env }}.yml \
           --env-file ~/secrets/datavarasto-${{ inputs.env }}.env \
           up -d --remove-orphans

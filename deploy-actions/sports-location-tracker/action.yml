@@ -11,6 +11,7 @@ runs:
       run: |
         cd $GITHUB_WORKSPACE/docker/sports-location-tracker
         TAG=${{ inputs.env }} docker-compose \
+          --project-name slt-${{ inputs.env }} \
           --file docker-compose.${{ inputs.env }}.yml \
           --env-file ~/secrets/sports-location-tracker-${{ inputs.env }}.env \
           up -d --remove-orphans

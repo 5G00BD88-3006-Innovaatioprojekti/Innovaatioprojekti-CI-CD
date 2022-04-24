@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  ui-prd:
+  ui:
     depends_on:
-      - database-prd
-      - user-management-service-prd
-      - gateway-prd
-      - file-service-prd
+      - database
+      - user-management-service
+      - gateway
+      - file-service
     hostname: ui-1_prd
     container_name: ui-1_prd
     image: ui-1:${TAG}
@@ -16,10 +16,10 @@ services:
     networks:
       - prd
 
-  gateway-prd:
+  gateway:
     depends_on:
-      - database-prd
-      - user-management-service-prd
+      - database
+      - user-management-service
     image: gw-1:${TAG}
     hostname: gateway
     container_name: gateway_prd
@@ -29,9 +29,9 @@ services:
     networks:
       - prd
 
-  user-management-service-prd:
+  user-management-service:
     depends_on:
-      - database-prd
+      - database
     image: ums-1:${TAG}
     hostname: user_management_service
     container_name: user_management_service_prd
@@ -41,10 +41,10 @@ services:
     networks:
       - prd
 
-  file-service-prd:
+  file-service:
     depends_on:
-      - database-prd
-      - user-management-service-prd
+      - database
+      - user-management-service
     image: fs-1:${TAG}
     hostname: file_service
     container_name: file_service_prd
@@ -54,7 +54,7 @@ services:
     networks:
       - prd
 
-  database-prd:
+  database:
     image: mongo-db:${TAG}
     hostname: mongo-db
     container_name: mongo-db_prd
