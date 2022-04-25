@@ -14,15 +14,15 @@ runs:
       run: >-
         case ${{ inputs.datavarasto-service }} in
           DV-datavarasto-ui)
-            echo '::set-output name=image::ui-1'
+            echo '::set-output name=image::ui-1';;
           DV-user-management-service)
-            echo '::set-output name=image::ums-1'
+            echo '::set-output name=image::ums-1';;
           DV-file-service)
-            echo '::set-output name=image::fs-1'
+            echo '::set-output name=image::fs-1';;
           DV-gateway)
-            echo '::set-output name=image::gw-1'
+            echo '::set-output name=image::gw-1';;
           DV-mongo-db)
-            echo '::set-output name=image::mongo-db'
+            echo '::set-output name=image::mongo-db';;
           *) 
             echo "Invalid input"
             exit 1;;
