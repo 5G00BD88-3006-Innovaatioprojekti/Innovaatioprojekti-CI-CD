@@ -33,8 +33,12 @@ jobs:
         CYPRESS_baseUrl: http://ui-1_${{ inputs.env }}:4200
       ports:
         - 3333
+      volumes:
+        - /home/project/repositories/datavarasto-ui:/workdir
     steps:
-      - name: Verify install was successful
-        run: npx cypress verify
+      #- name: Verify install was successful
+      #  run: npx cypress verify
       - name: Run E2E tests
-        run: npx cypress run
+        run: |
+          cd /workdir
+          npx cypress run
