@@ -34,11 +34,12 @@ jobs:
           docker network connect datavarasto-stg_stg nginx
 
   e2e-test:
+    needs: create-cypress-image
     runs-on: self-hosted
     container:
       image: cypress-test
       env:
-        CYPRESS_baseUrl: http://nginx:80/${{ github.event.inputs.env }}/${{ github.event.inputs.app }}
+        CYPRESS_baseUrl: http://ui-1_stg:4200
       ports:
         - 3333
       volumes:
