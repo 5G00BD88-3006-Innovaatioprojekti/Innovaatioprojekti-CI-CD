@@ -28,10 +28,12 @@ jobs:
   e2e-test:
     runs-on: self-hosted
     steps:
-      - name: Run e2e tests for ${{ github.event.inputs.app }}
+      - name: Copy app directory
         if: ${{ github.event.inputs.app }} == 'datavarasto'
+        run: cp -r ~/repositories/datavarasto-ui ./
+
+      - name: Run e2e tests for ${{ github.event.inputs.app }}
         uses: cypress-io/github-action@v2
         with:
-          working-directory: ~/repositories/datavarasto-ui
           headless: true
           wait-on: 'http://localhost:80/${{ github.event.inputs.env }}/${{ github.event.inputs.app }}'
