@@ -1,17 +1,18 @@
-name: E2E test
+name: E2E Test
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       app:
         required: true
         type: string
-  workflow_call:
+  workflow_dispatch:
     inputs:
       app:
         description: 'App to test'
         required: true
         type: choice
         options: [datavarasto]
+        default: datavarasto
 
 jobs:
   e2e-test:
