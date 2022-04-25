@@ -164,6 +164,8 @@ jobs:
     runs-on: self-hosted
     if: ${{ github.event.inputs.test }} == 'true'
     steps:
-      - name: Run tests for ${{ github.event.inputs.app }}
+      - name: Run e2e tests for ${{ github.event.inputs.app }}
         if: github.event.inputs.app != 'sports-location-tracker'
-        uses: ./test-actions/datavarasto
+        uses: ./.github/workflows/e2e-test.yml
+        with:
+          app: 'datavarasto'

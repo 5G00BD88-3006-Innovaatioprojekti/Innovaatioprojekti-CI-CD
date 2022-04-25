@@ -1,0 +1,26 @@
+name: E2E test
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      app:
+        description: 'App to test'
+        required: true
+        type: choice
+        options: [datavarasto]
+
+jobs:
+  e2e-test:
+    needs: deploy
+    runs-on: self-hosted
+    steps:
+      - name: Run e2e tests for ${{ github.event.inputs.app }}
+        if: ${{ github.event.inputs.app }} == 'datavarasto'
+        uses: cypress-io/github-action@v2
+        with:
+          project: ~/repositories/datavarasto-ui
+          browser: chrome
