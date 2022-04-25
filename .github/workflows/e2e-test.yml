@@ -5,6 +5,10 @@ on:
       app:
         required: true
         type: string
+      env:
+        required: true
+        type: string
+
   workflow_dispatch:
     inputs:
       app:
@@ -13,6 +17,12 @@ on:
         type: choice
         options: [datavarasto]
         default: datavarasto
+      env:
+        description: 'Environment'
+        required: true
+        type: choice
+        options: [stg, prd]
+        default: stg
 
 jobs:
   e2e-test:
@@ -22,6 +32,6 @@ jobs:
         if: ${{ github.event.inputs.app }} == 'datavarasto'
         uses: cypress-io/github-action@v2
         with:
-          project: ~/repositories/datavarasto-ui
+          working-directory: ~/repositories/datavarasto-ui
           headless: true
-          wait-on: 'http://localhost:80/stg/datavarasto'
+          wait-on: 'http://localhost:80/${{ github.event.inputs.env }}/${{ github.event.inputs.app }}'
