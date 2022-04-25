@@ -1,0 +1,48 @@
+name: Rollback Sports Location Tracker
+inputs:
+  env:
+    required: true
+  datavarasto-service:
+    require: true
+
+runs:
+  using: composite
+  steps:
+    - name: Get image for service
+      shell: bash
+      id: service
+      run: >-
+        case ${{ inputs.datavarasto-service }} in
+          DV-datavarasto-ui)
+            echo '::set-output name=image::ui-1'
+          DV-user-management-service)
+            echo '::set-output name=image::ums-1'
+          DV-file-service)
+            echo '::set-output name=image::fs-1'
+          DV-gateway)
+            echo '::set-output name=image::gw-1'
+          DV-mongo-db)
+            echo '::set-output name=image::mongo-db'
+          *) 
+            echo "Invalid input"
+            exit 1;;
+        esac
+
+    - name: Retag images
+      shell: bash
+      run: >-
+        IMAGE=${{ steps.service.outputs.image }}
+        TAG=${{ inputs.env }}
+        TAG_PREVIOUS=${TAG}_previous
+        TAG_TMP=${TAG}_tmp
+
+        if (docker image inspect ${IMAGE}:${TAG_PREVIOUS} > /dev/null \
+          && docker image inspect ${IMAGE}:${TAG} > /dev/null);
+        then
+          docker tag ${IMAGE}:${TAG} ${IMAGE}:${TAG_TMP}
+          docker tag ${IMAGE}:${TAG_PREVIOUS} ${IMAGE}:${TAG}
+          docker tag ${IMAGE}:${TAG_TMP} ${IMAGE}:${TAG_PREVIOUS}
+          docker image rm ${IMAGE}:${TAG_TMP}
+        else
+          exit 1
+        fi
