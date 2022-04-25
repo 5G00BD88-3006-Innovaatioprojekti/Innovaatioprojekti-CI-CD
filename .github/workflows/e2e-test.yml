@@ -34,5 +34,7 @@ jobs:
       ports:
         - 3333
     steps:
-      - name: Verify container install
+      - name: Verify install was successful
         run: npx cypress verify
+      - name: Run E2E tests
+        run: npx cypress run
