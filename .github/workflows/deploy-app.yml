@@ -25,6 +25,12 @@ on:
         type: choice
         options: [stg, prd]
         default: stg
+      test:
+        description: 'Run tests'
+        required: true
+        type: choice
+        options: [true, false]
+        default: false
 
 concurrency:
   group: deploy
@@ -153,3 +159,12 @@ jobs:
         uses: ./deploy-actions/datavarasto
         with:
           env: ${{ github.event.inputs.env }}
+
+  e2e-test:
+    needs: deploy
+    runs-on: self-hosted
+    if: ${{ github.event.inputs.test }} == 'true'
+    steps:
+      - name: Run tests for ${{ github.event.inputs.app }}
+        if: github.event.inputs.app != 'sports-location-tracker'
+        uses: ./test-actions/datavarasto
