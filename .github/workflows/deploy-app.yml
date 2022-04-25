@@ -28,8 +28,7 @@ on:
       test:
         description: 'Run tests'
         required: true
-        type: choice
-        options: [true, false]
+        type: boolean
         default: false
 
 concurrency:
