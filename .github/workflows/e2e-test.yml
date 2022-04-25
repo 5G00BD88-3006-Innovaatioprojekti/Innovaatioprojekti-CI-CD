@@ -20,7 +20,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Run e2e tests for ${{ github.event.inputs.app }}
-        if: ${{ github.event.inputs.app }} == 'datavarasto'
         uses: cypress-io/github-action@v2
         with:
           project: ~/repositories/datavarasto-ui
