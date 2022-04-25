@@ -30,7 +30,7 @@ jobs:
     container:
       image: cypress/base:14
       env:
-        CYPRESS_baseUrl: http://ui-1_${{ inputs.env }}:4200
+        CYPRESS_baseUrl: http://nginx:80/${{ github.event.inputs.env }}/${{ github.event.inputs.app }}
       ports:
         - 3333
       volumes:
@@ -39,6 +39,9 @@ jobs:
       #- name: Verify install was successful
       #  run: npx cypress verify
       - name: Run E2E tests
+        run: curl localhost
+      - name: Run E2E tests
         run: |
           cd /workdir
+          ls -a
           npx cypress run
