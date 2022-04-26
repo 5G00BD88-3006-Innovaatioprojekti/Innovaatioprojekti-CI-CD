@@ -169,13 +169,15 @@ jobs:
         uses: ./.github/workflows/e2e-test.yml
         with:
           app: 'datavarasto'
+          env: ${{ github.event.inputs.env }}
 
   rollback:
     needs: e2e-test
     runs-on: self-hosted
     if: always() && needs.e2e-test.result == 'failure'
-    - name: Rollback
-      uses: ./.github/workflows/rollback.yml
-      with:
-        app: ${{ github.event.inputs.app }}
-        env: ${{ github.event.inputs.env }}
+    steps:
+      - name: Rollback
+        uses: ./.github/workflows/rollback.yml
+        with:
+          app: ${{ github.event.inputs.app }}
+          env: ${{ github.event.inputs.env }}
