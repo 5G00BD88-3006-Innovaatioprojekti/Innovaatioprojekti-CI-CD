@@ -39,8 +39,6 @@ jobs:
       #- name: Verify install was successful
       #  run: npx cypress verify
       - name: Run E2E tests
-        run: curl localhost
-      - name: Run E2E tests
         run: |
           cd /workdir
           ls -a
