@@ -1,5 +1,14 @@
 name: Rollback
 on:
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+      env:
+        required: true
+        type: string
+
   workflow_dispatch:
     inputs:
       app:
