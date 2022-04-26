@@ -139,8 +139,7 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - name: Checkout this repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Run deploy action for ${{ github.event.inputs.app }}
         if: github.event.inputs.app == 'sports-location-tracker'
@@ -164,6 +163,8 @@ jobs:
     runs-on: self-hosted
     if: ${{ github.event.inputs.test }} == 'true'
     steps:
+      - uses: actions/checkout@v3
+
       - name: Run e2e tests for ${{ github.event.inputs.app }}
         if: github.event.inputs.app != 'sports-location-tracker'
         uses: ./.github/workflows/e2e-test.yml
@@ -176,6 +177,8 @@ jobs:
     runs-on: self-hosted
     if: always() && needs.e2e-test.result == 'failure'
     steps:
+      - uses: actions/checkout@v3
+
       - name: Rollback
         uses: ./.github/workflows/rollback.yml
         with:
