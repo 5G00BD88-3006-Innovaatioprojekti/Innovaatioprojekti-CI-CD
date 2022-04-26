@@ -30,7 +30,7 @@ jobs:
     container:
       image: cypress/base:14
       env:
-        CYPRESS_baseUrl: http://172.17.0.1:80
+        CYPRESS_baseUrl: http://172.17.0.1:80/${{ github.event.inputs.env }}/${{ github.event.inputs.app }}
       ports:
         - 3333
       volumes:
