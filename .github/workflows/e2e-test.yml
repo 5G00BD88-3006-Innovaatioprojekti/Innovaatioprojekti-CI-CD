@@ -39,7 +39,7 @@ jobs:
     container:
       image: cypress-test
       env:
-        CYPRESS_baseUrl: http://ui-1_stg:4200
+        CYPRESS_baseUrl: http://172.17.0.1:80
       ports:
         - 3333
       volumes:
