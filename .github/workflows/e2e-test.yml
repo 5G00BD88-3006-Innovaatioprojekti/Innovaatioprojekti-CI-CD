@@ -25,19 +25,10 @@ on:
         default: stg
 
 jobs:
-  create-cypress-image:
-    runs-on: self-hosted
-    steps:
-      - name: Build cypress image and connect to network
-        run: |
-          docker build -t cypress-test cypress/base:14
-          docker network connect datavarasto-stg_stg nginx
-
   e2e-test:
-    needs: create-cypress-image
     runs-on: self-hosted
     container:
-      image: cypress-test
+      image: cypress/base:14
       env:
         CYPRESS_baseUrl: http://172.17.0.1:80
       ports:
@@ -47,6 +38,8 @@ jobs:
     steps:
       #- name: Verify install was successful
       #  run: npx cypress verify
+      - name: Run E2E tests
+        run: curl localhost
       - name: Run E2E tests
         run: |
           cd /workdir
