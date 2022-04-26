@@ -27,6 +27,7 @@ on:
 jobs:
   e2e-test:
     runs-on: self-hosted
+    if: ${{ github.event.inputs.app }} == 'datavarasto'
     container:
       image: cypress/base:14
       env:
@@ -36,10 +37,7 @@ jobs:
       volumes:
         - /home/project/repositories/datavarasto-ui:/workdir
     steps:
-      #- name: Verify install was successful
-      #  run: npx cypress verify
       - name: Run E2E tests
         run: |
           cd /workdir
-          ls -a
           npx cypress run

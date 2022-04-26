@@ -160,27 +160,18 @@ jobs:
 
   e2e-test:
     needs: deploy
-    runs-on: self-hosted
-    if: ${{ github.event.inputs.test }} == 'true'
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Run e2e tests for ${{ github.event.inputs.app }}
-        if: github.event.inputs.app != 'sports-location-tracker'
-        uses: ./.github/workflows/e2e-test.yml
-        with:
-          app: 'datavarasto'
-          env: ${{ github.event.inputs.env }}
+    name: Run e2e tests for ${{ github.event.inputs.app }}
+    if: ${{ github.event.inputs.test }} == 'true' && ${{ github.event.inputs.app }} != 'sports-location-tracker'
+    uses: ./.github/workflows/e2e-test.yml
+    with:
+      app: datavarasto
+      env: ${{ github.event.inputs.env }}
 
   rollback:
     needs: e2e-test
-    runs-on: self-hosted
+    name: Rollback
     if: always() && needs.e2e-test.result == 'failure'
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Rollback
-        uses: ./.github/workflows/rollback.yml
-        with:
-          app: ${{ github.event.inputs.app }}
-          env: ${{ github.event.inputs.env }}
+    uses: ./.github/workflows/rollback.yml
+    with:
+      app: ${{ github.event.inputs.app }}
+      env: ${{ github.event.inputs.env }}
